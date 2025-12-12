@@ -10,7 +10,7 @@ const Navbar = () => {
   const [theme, setTheme] = useState("light");
 
   const { user, setUser, logOut } = useContext(AuthContext);
-  // console.log(user);
+  console.log(user);
 
   const handleSignout = () => {
     // signOut(auth)
@@ -119,7 +119,7 @@ const Navbar = () => {
                   <span className="font-semibold">{user?.displayName}</span>
                 </li>
                 <li>
-                  <span>{user?.email}</span>
+                  <Link className="font-bold hover:text-green-400" to="/dashboard">Dashboard</Link>
                 </li>
                 <li>
                   <button

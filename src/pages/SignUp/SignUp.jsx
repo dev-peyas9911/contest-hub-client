@@ -1,44 +1,135 @@
 import React, { useState } from "react";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 // import { auth } from "../firebase/firebase.config";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import useAuth from "../../hooks/useAuth";
+import { useForm } from "react-hook-form";
+import { imageUpload } from "../../utils";
+import toast from "react-hot-toast";
+import LoadingSpinner from "../../components/Shared/LoadingSpinner";
 
 const SignUp = () => {
   const [show, setShow] = useState(false);
 
+  // React Hook Form
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const { createUser, updateUserProfile, signInWithGoogle, loading } =
+    useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state || "/";
+
+  if (loading) return <LoadingSpinner></LoadingSpinner>;
+
+  //   Sign in
+  const onSubmit = async (data) => {
+    // console.log(data);
+    const { name, image, email, password } = data;
+    const imageFile = image[0];
+
+    try {
+      const imageURL = await imageUpload(imageFile);
+
+      //1. User Registration
+      const result = await createUser(email, password);
+
+      // 2. Generate image url from selected file
+
+      //3. Save username & profile photo
+      await updateUserProfile(name, imageURL);
+
+      navigate(from, { replace: true });
+      toast.success("Signup Successful");
+
+      console.log(result);
+    } catch (err) {
+      console.log(err);
+      toast.error(err?.message);
+    }
+  };
+
+  // Handle Google Signin
+  const handleGoogleSignIn = async () => {
+    try {
+      //User Registration using google
+      await signInWithGoogle();
+
+      navigate(from, { replace: true });
+      toast.success("Signup Successful");
+    } catch (err) {
+      console.log(err);
+      toast.error(err?.message);
+    }
+  };
+
   return (
     <div className="card-body flex justify-center items-center">
       <h2 className="text-3xl font-bold text-center">Register here!</h2>
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <fieldset className="fieldset">
-          <label className="label">Name</label>
-          <input
-            type="text"
-            name="name"
-            className="input"
-            placeholder="Your Name"
-          />
-          <label className="label">Photo</label>
-          <input
-            type="text"
-            name="photo"
-            className="input"
-            placeholder="Your Photo"
-          />
-          <label className="label">Email</label>
-          <input
-            type="email"
-            name="email"
-            className="input"
-            placeholder="Email"
-          />
+          {/* Name */}
+          <div>
+            <label className="label">Name</label>
+            <input
+              type="text"
+              className="input"
+              placeholder="Your Name"
+              {...register("name", {
+                required: "Name is required",
+                maxLength: {
+                  value: 20,
+                  message: "Name cannot be too long",
+                },
+              })}
+            />
+            {errors.name && (
+              <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>
+            )}
+          </div>
+          {/* Image */}
+          <div>
+            <label className="label">Photo</label>
+            <input type="file" className="file-input" {...register("image")} />
+          </div>
+          {/* Email */}
+          <div>
+            <label className="label">Email</label>
+            <input
+              type="email"
+              className="input"
+              placeholder="Email"
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                  message: "Please enter a valid email address.",
+                },
+              })}
+            />
+            {errors.email && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.email.message}
+              </p>
+            )}
+          </div>
           <div className="relative">
             <label className="label">Password</label>
             <input
               type={show ? "text" : "password"}
-              name="password"
               className="input"
               placeholder="Password"
+              {...register("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 6,
+                  message: "Password must be at least 6 characters",
+                },
+              })}
             />
             <span
               onClick={() => setShow(!show)}
@@ -46,6 +137,11 @@ const SignUp = () => {
             >
               {show ? <FaEyeSlash /> : <FaEye />}
             </span>
+            {errors.password && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.password.message}
+              </p>
+            )}
           </div>
 
           <button type="submit" className="btn btn-neutral mt-4">
@@ -59,6 +155,7 @@ const SignUp = () => {
             here
           </p>
           <button
+            onClick={handleGoogleSignIn}
             type="button"
             className="btn bg-white text-black w-full border-[#e5e5e5]"
           >

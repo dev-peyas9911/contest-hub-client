@@ -1,25 +1,91 @@
 import React, { useState } from "react";
-import { Link } from "react-router";
+import { Link, Navigate, useLocation, useNavigate } from "react-router";
 
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import useAuth from "../../hooks/useAuth";
+
+import toast from "react-hot-toast";
+import { useForm } from "react-hook-form";
+import LoadingSpinner from "../../components/Shared/LoadingSpinner";
 
 const Login = () => {
   // const [user, setUser] = useState(null);
   const [show, setShow] = useState(false);
 
+  // React Hook Form
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const { signIn, signInWithGoogle, loading, user, setLoading } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state || "/";
+
+  if (loading) return <LoadingSpinner></LoadingSpinner>;
+  if (user) return <Navigate to={from} replace={true} />;
+
+  //   Sign in
+  const onSubmit = async (data) => {
+    const { email, password } = data;
+
+    try {
+      //1. User Registration
+      const result = await signIn(email, password);
+
+      navigate(from, { replace: true });
+      toast.success("Signup Successful");
+
+      console.log(result);
+    } catch (err) {
+      console.log(err);
+      toast.error(err?.message);
+    }
+  };
+
+  // Handle Google Signin
+  const handleGoogleSignIn = async () => {
+    try {
+      //User Registration using google
+      await signInWithGoogle();
+      navigate(from, { replace: true });
+      toast.success("Login Successful");
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+      toast.error(err?.message);
+    }
+  };
+
   return (
     <div className="card-body flex justify-center items-center">
       <div>
         <h2 className="text-3xl font-bold text-center">Log in Here!</h2>
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <fieldset className="fieldset">
-            <label className="label">Email</label>
-            <input
-              type="email"
-              name="email"
-              className="input"
-              placeholder="Email"
-            />
+            <div>
+              <label className="label">Email</label>
+              <input
+                type="email"
+                name="email"
+                className="input"
+                placeholder="Email"
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                    message: "Please enter a valid email address.",
+                  },
+                })}
+              />
+              {errors.email && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.email.message}
+                </p>
+              )}
+            </div>
             <div className="relative">
               <label className="label">Password</label>
               <input
@@ -27,6 +93,13 @@ const Login = () => {
                 name="password"
                 className="input"
                 placeholder="Password"
+                {...register("password", {
+                  required: "Password is required",
+                  minLength: {
+                    value: 6,
+                    message: "Password must be at least 6 characters",
+                  },
+                })}
               />
               <span
                 onClick={() => setShow(!show)}
@@ -34,12 +107,18 @@ const Login = () => {
               >
                 {show ? <FaEyeSlash /> : <FaEye />}
               </span>
+              {errors.password && (
+                <p className="text-red-500 text-xs mt-1">
+                  {errors.password.message}
+                </p>
+              )}
             </div>
             <button type="submit" className="btn btn-neutral mt-4">
               Log in
             </button>
             {/* Log in with google */}
             <button
+              onClick={handleGoogleSignIn}
               type="button"
               className="btn bg-white text-black w-full border-[#e5e5e5]"
             >
