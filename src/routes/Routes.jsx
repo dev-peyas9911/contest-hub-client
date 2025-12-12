@@ -16,6 +16,7 @@ import SubmittedTasks from "../pages/Dashboard/ContestCreator/SubmittedTasks";
 import EditContest from "../pages/Dashboard/ContestCreator/EditContest";
 import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
 import ManageContests from "../pages/Dashboard/Admin/ManageContests";
+import ContestDetails from "../pages/ContestDetails/ContestDetails";
 
 export const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ export const router = createBrowserRouter([
       {
         path: "/all-contests",
         element: <AllContests></AllContests>,
+      },
+      {
+        path: "/contest/:id",
+        element: <ContestDetails></ContestDetails>,
       },
       {
         path: "/extra-section",
@@ -50,41 +55,41 @@ export const router = createBrowserRouter([
     element: <DashboardLayout></DashboardLayout>,
     children: [
       {
-        path: '/dashboard/participated',
-        element: <Participated></Participated>
+        path: "/dashboard/participated",
+        element: <Participated></Participated>,
       },
       {
-        path: '/dashboard/winnings',
-        element: <Winnings></Winnings>
+        path: "/dashboard/winnings",
+        element: <Winnings></Winnings>,
       },
       {
-        path: '/dashboard/profile',
-        element: <Profile></Profile>
+        path: "/dashboard/profile",
+        element: <Profile></Profile>,
       },
       {
-        path: '/dashboard/add-contest',
-        element: <AddContest></AddContest>
+        path: "/dashboard/add-contest",
+        element: <AddContest></AddContest>,
       },
       {
-        path: '/dashboard/created-contests',
-        element: <CreatedContests></CreatedContests>
+        path: "/dashboard/created-contests",
+        element: <CreatedContests></CreatedContests>,
       },
       {
-        path: '/dashboard/submitted-tasks',
-        element: <SubmittedTasks></SubmittedTasks>
+        path: "/dashboard/submitted-tasks",
+        element: <SubmittedTasks></SubmittedTasks>,
       },
       {
-        path: '/dashboard/edit-contest',
-        element: <EditContest></EditContest>
+        path: "/dashboard/edit-contest",
+        element: <EditContest></EditContest>,
       },
       {
-        path: '/dashboard/manage-users',
-        element: <ManageUsers></ManageUsers>
+        path: "/dashboard/manage-users",
+        element: <ManageUsers></ManageUsers>,
       },
       {
-        path: '/dashboard/manage-contests',
-        element: <ManageContests></ManageContests>
+        path: "/dashboard/manage-contests",
+        element: <ManageContests></ManageContests>,
       },
-    ]
-  }
+    ],
+  },
 ]);
