@@ -10,7 +10,7 @@ const Navbar = () => {
   const [theme, setTheme] = useState("light");
 
   const { user, setUser, logOut } = useContext(AuthContext);
-  console.log(user);
+  // console.log(user);
 
   const handleSignout = () => {
     // signOut(auth)

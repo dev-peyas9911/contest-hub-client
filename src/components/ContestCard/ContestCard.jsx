@@ -2,7 +2,7 @@ import { Link } from "react-router";
 import { Users } from "lucide-react"; // optional icon
 
 export function ContestCard({ contest }) {
-  const { _id, image, name, description, creator, contestType, price } =
+  const { _id, image, name, description, creator, contestType } =
     contest;
 
   return (
