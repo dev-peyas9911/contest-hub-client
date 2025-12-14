@@ -17,6 +17,7 @@ import EditContest from "../pages/Dashboard/ContestCreator/EditContest";
 import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
 import ManageContests from "../pages/Dashboard/Admin/ManageContests";
 import ContestDetails from "../pages/ContestDetails/ContestDetails";
+import PaymentSuccess from "../pages/Payment/PaymentSuccess";
 
 export const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ export const router = createBrowserRouter([
         path: "/extra-section",
         element: <ExtraSection></ExtraSection>,
       },
+      {
+        path: "/payment-success",
+        element: <PaymentSuccess></PaymentSuccess>
+      }
     ],
   },
   {

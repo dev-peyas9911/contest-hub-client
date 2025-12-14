@@ -5,8 +5,10 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import LoadingSpinner from "../../components/Shared/LoadingSpinner";
 import toast from "react-hot-toast";
+import useAuth from "../../hooks/useAuth";
 
 const ContestDetails = () => {
+  const { user } = useAuth();
   const { id } = useParams();
 
   const [timeLeft, setTimeLeft] = useState({});
@@ -22,7 +24,7 @@ const ContestDetails = () => {
       return result.data;
     },
   });
-//   console.log(contest);
+  //   console.log(contest);
   const {
     _id,
     image,
@@ -34,6 +36,7 @@ const ContestDetails = () => {
     contestType,
     participants,
     deadline,
+    creator,
   } = contest;
 
   // ----------------------------
@@ -83,6 +86,30 @@ const ContestDetails = () => {
     setTaskText("");
     document.getElementById("task_modal").close();
     toast("Task submitted successfully!");
+  };
+
+  // Payment process
+  const handlePayment = async () => {
+    const paymentInfo = {
+      contestId: _id,
+      name,
+      quantity: 1,
+      price,
+      description,
+      image,
+      contestType,
+      creator,
+      customer: {
+        name: user?.displayName,
+        email: user?.email,
+        image: user?.photoURL,
+      },
+    };
+    const { data } = await axios.post(
+      `${import.meta.env.VITE_API_URL}/create-checkout-session`,
+      paymentInfo
+    );
+    window.location.href = data.url;
   };
 
   return (
@@ -159,12 +186,12 @@ const ContestDetails = () => {
         {/* Buttons */}
         <div className="flex gap-4">
           {/* Register / Pay Button */}
-          <Link
-            to={`/payment/${_id}`}
+          <button
+            onClick={handlePayment}
             className={`btn btn-primary ${contestEnded ? "btn-disabled" : ""}`}
           >
             {contestEnded ? "Registration Closed" : `Register $${price}`}
-          </Link>
+          </button>
 
           {/* Submit Task Button */}
           <button
