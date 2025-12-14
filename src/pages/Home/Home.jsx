@@ -1,10 +1,15 @@
 import React from "react";
 import Container from "../../components/Shared/Container";
+import Banner from "../../components/Home/Banner/Banner";
+import PopularContests from "../../components/Home/PopularContests/PopularContests";
 
 const Home = () => {
   return (
     <Container>
-      <div>this is home home page</div>
+      {/* Banner */}
+      <Banner></Banner>
+      {/* Popular Contests */}
+      <PopularContests></PopularContests>
     </Container>
   );
 };

@@ -30,7 +30,7 @@ export const router = createBrowserRouter([
         element: <Home></Home>,
       },
       {
-        path: "/all-contests",
+        path: "/contests",
         element: <AllContests></AllContests>,
       },
       {

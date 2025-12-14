@@ -59,7 +59,7 @@ const Navbar = () => {
             </li>
             <li>
               <NavLink
-                to="/all-contests"
+                to="/contests"
                 className={({ isActive }) =>
                   isActive ? "text-primary font-semibold" : ""
                 }
