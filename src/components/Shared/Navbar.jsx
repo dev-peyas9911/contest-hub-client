@@ -41,7 +41,7 @@ const Navbar = () => {
               alt="Logo"
               className="w-10 h-10 object-cover rounded-full"
             />
-            <span className="text-xl font-bold">Contest Hub</span>
+            <span className="text-xl font-bold text-primary">Contest Hub</span>
           </Link>
         </div>
 
