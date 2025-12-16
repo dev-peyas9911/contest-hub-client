@@ -2,23 +2,23 @@ import React from "react";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 import useAuth from "../../../hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+
 import CustomerOrderDataRow from "../../../components/Dashboard/CustomerOrderDataRow";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const Participated = () => {
-    const { user } = useAuth()
+  const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
   const { data: participates = [], isLoading } = useQuery({
-    queryKey: ['participates', user?.email],
+    queryKey: ["participates", user?.email],
     queryFn: async () => {
-      const result = await axios(
-        `${import.meta.env.VITE_API_URL}/my-participates/${user?.email}`
-      )
-      return result.data
+      const result = await axiosSecure(`/my-participates`);
+      return result.data;
     },
-  })
-//   console.log(orders)
+  });
+  //   console.log(orders)
 
-  if (isLoading) return <LoadingSpinner></LoadingSpinner>
+  if (isLoading) return <LoadingSpinner></LoadingSpinner>;
   return (
     <div className="container mx-auto px-4 sm:px-8">
       <div className="py-8">
@@ -31,13 +31,13 @@ const Participated = () => {
                     scope="col"
                     className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal"
                   >
-                   Contest Image
+                    Contest Image
                   </th>
                   <th
                     scope="col"
                     className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal"
                   >
-                   Contest Name
+                    Contest Name
                   </th>
                   <th
                     scope="col"
@@ -74,8 +74,10 @@ const Participated = () => {
               </thead>
               <tbody>
                 {participates.map((participate) => (
-
-                  <CustomerOrderDataRow key={participate._id} participate={participate} />
+                  <CustomerOrderDataRow
+                    key={participate._id}
+                    participate={participate}
+                  />
                 ))}
               </tbody>
             </table>

@@ -18,6 +18,9 @@ import ManageContests from "../pages/Dashboard/Admin/ManageContests";
 import ContestDetails from "../pages/ContestDetails/ContestDetails";
 import PaymentSuccess from "../pages/Payment/PaymentSuccess";
 import Profile from "../pages/Dashboard/ForAll/Profile";
+import PrivateRoute from "./PrivateRoute";
+import CreatorRoute from "./CreatorRoute";
+import AdminRoute from "./AdminRoute";
 
 export const router = createBrowserRouter([
   {
@@ -35,7 +38,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/contest/:id",
-        element: <ContestDetails></ContestDetails>,
+        element: (
+          <PrivateRoute>
+            <ContestDetails></ContestDetails>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/extra-section",
@@ -57,48 +64,104 @@ export const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <DashboardLayout></DashboardLayout>,
+    element: (
+      <PrivateRoute>
+        <DashboardLayout></DashboardLayout>
+      </PrivateRoute>
+    ),
     children: [
-    {
-      index: true,
-      element: <div className="flex justify-center items-center text-primary font-bold text-5xl">Welcome to DashBoard</div>
-    },
+      {
+        index: true,
+        element: (
+          <div className="flex justify-center items-center text-primary font-bold text-5xl">
+            Welcome to DashBoard
+          </div>
+        ),
+      },
       {
         path: "/dashboard/profile",
-        element: <Profile></Profile>,
+        element: (
+          <PrivateRoute>
+            <Profile></Profile>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/participated",
-        element: <Participated></Participated>,
+        element: (
+          <PrivateRoute>
+            <Participated></Participated>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/winnings",
-        element: <Winnings></Winnings>,
+        element: (
+          <PrivateRoute>
+            <Winnings></Winnings>
+          </PrivateRoute>
+        ),
       },
 
       {
         path: "/dashboard/add-contest",
-        element: <AddContest></AddContest>,
+        element: (
+          <PrivateRoute>
+            <CreatorRoute>
+              <AddContest></AddContest>
+            </CreatorRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/created-contests",
-        element: <CreatedContests></CreatedContests>,
+        element: (
+          <PrivateRoute>
+            <CreatorRoute>
+              <CreatedContests></CreatedContests>
+            </CreatorRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/submitted-tasks",
-        element: <SubmittedTasks></SubmittedTasks>,
+        element: (
+          <PrivateRoute>
+            <CreatorRoute>
+              <SubmittedTasks></SubmittedTasks>
+            </CreatorRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/edit-contest",
-        element: <EditContest></EditContest>,
+        element: (
+          <PrivateRoute>
+            <CreatorRoute>
+              <EditContest></EditContest>
+            </CreatorRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/manage-users",
-        element: <ManageUsers></ManageUsers>,
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <ManageUsers></ManageUsers>
+            </AdminRoute>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/manage-contests",
-        element: <ManageContests></ManageContests>,
+        element: (
+          <PrivateRoute>
+            <AdminRoute>
+              <ManageContests></ManageContests>
+            </AdminRoute>
+          </PrivateRoute>
+        ),
       },
     ],
   },
