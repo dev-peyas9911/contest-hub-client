@@ -2,21 +2,56 @@ import React, { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Link, NavLink, Outlet } from "react-router";
 import Container from "../components/Shared/Container";
+import LoadingSpinner from "../components/Shared/LoadingSpinner";
+import useRole from "../hooks/useRole";
 
 export default function DashboardLayout() {
   const [open, setOpen] = useState(false);
+  const [role, isRoleLoading] = useRole();
+  // console.log(role, isRoleLoading);
 
+  // Build the array and filter out falsy items
   const navItems = [
-    { label: "My Participated Contests", path: "/dashboard/participated" },
-    { label: "My Winning Contests", path: "/dashboard/winnings" },
-    { label: "My Profile", path: "/dashboard/profile" },
-    { label: "Add Contest Page", path: "/dashboard/add-contest" },
-    { label: "My Created Contests Page", path: "/dashboard/created-contests" },
-    { label: "Submitted Tasks Page", path: "/dashboard/submitted-tasks" },
-    { label: "Edit Contest Page", path: "/dashboard/edit-contest" },
-    { label: "Manage Users", path: "/dashboard/manage-users" },
-    { label: "Manage Contests", path: "/dashboard/manage-contests" },
-  ];
+    role === "participant" && {
+      label: "My Participated Contests",
+      path: "/dashboard/participated",
+    },
+    role === "participant" && {
+      label: "My Winning Contests",
+      path: "/dashboard/winnings",
+    },
+
+    role === "creator" && {
+      label: "Add Contest Page",
+      path: "/dashboard/add-contest",
+    },
+    role === "creator" && {
+      label: "My Created Contests Page",
+      path: "/dashboard/created-contests",
+    },
+    role === "creator" && {
+      label: "Submitted Tasks Page",
+      path: "/dashboard/submitted-tasks",
+    },
+    role === "creator" && {
+      label: "Edit Contest Page",
+      path: "/dashboard/edit-contest",
+    },
+    role === "admin" && {
+      label: "Manage Users",
+      path: "/dashboard/manage-users",
+    },
+    role === "admin" && {
+      label: "Manage Contests",
+      path: "/dashboard/manage-contests",
+    },
+    { label: "My Profile", path: "/dashboard/profile" }, // Always shown
+  ].filter(Boolean); // This removes any false values
+
+  // Optional: Show a loading state while role is fetching
+  if (isRoleLoading) {
+    return <LoadingSpinner></LoadingSpinner>;
+  }
 
   return (
     <Container>

@@ -9,7 +9,6 @@ import SignUp from "../pages/SignUp/SignUp";
 import DashboardLayout from "../layouts/DashboardLayout";
 import Participated from "../pages/Dashboard/NormalUser/Participated";
 import Winnings from "../pages/Dashboard/NormalUser/Winnings";
-import Profile from "../pages/Dashboard/NormalUser/Profile";
 import AddContest from "../pages/Dashboard/ContestCreator/AddContest";
 import CreatedContests from "../pages/Dashboard/ContestCreator/CreatedContests";
 import SubmittedTasks from "../pages/Dashboard/ContestCreator/SubmittedTasks";
@@ -18,6 +17,7 @@ import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
 import ManageContests from "../pages/Dashboard/Admin/ManageContests";
 import ContestDetails from "../pages/ContestDetails/ContestDetails";
 import PaymentSuccess from "../pages/Payment/PaymentSuccess";
+import Profile from "../pages/Dashboard/ForAll/Profile";
 
 export const router = createBrowserRouter([
   {
@@ -43,8 +43,8 @@ export const router = createBrowserRouter([
       },
       {
         path: "/payment-success",
-        element: <PaymentSuccess></PaymentSuccess>
-      }
+        element: <PaymentSuccess></PaymentSuccess>,
+      },
     ],
   },
   {
@@ -59,6 +59,14 @@ export const router = createBrowserRouter([
     path: "/dashboard",
     element: <DashboardLayout></DashboardLayout>,
     children: [
+    {
+      index: true,
+      element: <div className="flex justify-center items-center text-primary font-bold text-5xl">Welcome to DashBoard</div>
+    },
+      {
+        path: "/dashboard/profile",
+        element: <Profile></Profile>,
+      },
       {
         path: "/dashboard/participated",
         element: <Participated></Participated>,
@@ -67,10 +75,7 @@ export const router = createBrowserRouter([
         path: "/dashboard/winnings",
         element: <Winnings></Winnings>,
       },
-      {
-        path: "/dashboard/profile",
-        element: <Profile></Profile>,
-      },
+
       {
         path: "/dashboard/add-contest",
         element: <AddContest></AddContest>,

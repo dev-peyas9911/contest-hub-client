@@ -7,6 +7,7 @@ import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import LoadingSpinner from "../../components/Shared/LoadingSpinner";
+import { saveOrUpdateUser } from "../../utils";
 
 const Login = () => {
   // const [user, setUser] = useState(null);
@@ -32,13 +33,19 @@ const Login = () => {
     const { email, password } = data;
 
     try {
-      //1. User Registration
-      const result = await signIn(email, password);
+      //1. User log in
+      const { user } = await signIn(email, password);
+
+      await saveOrUpdateUser({
+        name: user?.displayName,
+        email: user?.email,
+        image: user?.photoURL,
+      });
 
       navigate(from, { replace: true });
       toast.success("Signup Successful");
 
-      console.log(result);
+      // console.log(result);
     } catch (err) {
       console.log(err);
       toast.error(err?.message);
@@ -49,7 +56,14 @@ const Login = () => {
   const handleGoogleSignIn = async () => {
     try {
       //User Registration using google
-      await signInWithGoogle();
+      const { user } = await signInWithGoogle();
+
+      await saveOrUpdateUser({
+        name: user?.displayName,
+        email: user?.email,
+        image: user?.photoURL,
+      });
+
       navigate(from, { replace: true });
       toast.success("Login Successful");
     } catch (err) {
