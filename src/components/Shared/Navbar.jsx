@@ -1,13 +1,14 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Link, NavLink } from "react-router";
 import { Sun, Moon } from "lucide-react";
 
 import { AuthContext } from "../../providers/AuthContext";
 import toast from "react-hot-toast";
 import Container from "./Container";
+import ThemeToggle from "../ThemeToggle/ThemeToggle";
 
 const Navbar = () => {
-  const [theme, setTheme] = useState("light");
+  // const [theme, setTheme] = useState("light");
 
   const { user, setUser, logOut } = useContext(AuthContext);
   // console.log(user);
@@ -24,11 +25,11 @@ const Navbar = () => {
       });
   };
 
-  const toggleTheme = () => {
-    const newTheme = theme === "light" ? "dark" : "light";
-    setTheme(newTheme);
-    document.querySelector("html").setAttribute("data-theme", newTheme);
-  };
+  // const toggleTheme = () => {
+  //   const newTheme = theme === "light" ? "dark" : "light";
+  //   setTheme(newTheme);
+  //   document.querySelector("html").setAttribute("data-theme", newTheme);
+  // };
 
   return (
     <Container>
@@ -69,6 +70,16 @@ const Navbar = () => {
             </li>
             <li>
               <NavLink
+                to="/leader-board-page"
+                className={({ isActive }) =>
+                  isActive ? "text-primary font-semibold" : ""
+                }
+              >
+                Leaderboard
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
                 to="/extra-section"
                 className={({ isActive }) =>
                   isActive ? "text-primary font-semibold" : ""
@@ -82,13 +93,14 @@ const Navbar = () => {
 
         <div className="navbar-end flex items-center gap-2">
           {/* Theme Toggle */}
-          <button onClick={toggleTheme} className="btn btn-ghost btn-circle">
+          {/* <button onClick={toggleTheme} className="btn btn-ghost btn-circle">
             {theme === "light" ? (
               <Moon className="w-5 h-5" />
             ) : (
               <Sun className="w-5 h-5" />
             )}
-          </button>
+          </button> */}
+          <ThemeToggle></ThemeToggle>
 
           {/* Conditional Auth Buttons */}
           {!user ? (
@@ -148,6 +160,9 @@ const Navbar = () => {
             </li>
             <li>
               <NavLink to="/all-contests">All Contests</NavLink>
+            </li>
+            <li>
+              <NavLink to="/leader-board-page">Leaderboard</NavLink>
             </li>
             <li>
               <NavLink to="/extra-section">Extra Section</NavLink>

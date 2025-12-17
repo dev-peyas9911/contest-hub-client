@@ -21,6 +21,7 @@ import Profile from "../pages/Dashboard/ForAll/Profile";
 import PrivateRoute from "./PrivateRoute";
 import CreatorRoute from "./CreatorRoute";
 import AdminRoute from "./AdminRoute";
+import LeaderBoardPage from "../pages/LeaderBoardPage/LeaderBoardPage";
 
 export const router = createBrowserRouter([
   {
@@ -41,6 +42,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <ContestDetails></ContestDetails>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/leader-board-page",
+        element: (
+          <PrivateRoute>
+            <LeaderBoardPage></LeaderBoardPage>
           </PrivateRoute>
         ),
       },
