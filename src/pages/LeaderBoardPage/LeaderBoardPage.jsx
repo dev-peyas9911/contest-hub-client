@@ -281,12 +281,12 @@ const LeaderBoardPage = () => {
         </div>
 
         {/* Footer Note */}
-        <div className="text-center mt-8 opacity-70">
+        {/* <div className="text-center mt-8 opacity-70">
           <p>
             This leaderboard is currently static with client-side pagination.
             Dynamic data and server-side pagination coming soon!
           </p>
-        </div>
+        </div> */}
       </div>
     </div>
   );
