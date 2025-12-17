@@ -36,7 +36,7 @@ const CustomerOrderDataRow = ({participate}) => {
       </td>
 
       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-        <p>pending</p>
+        <p className="text-gray-900">pending</p>
       </td>
     </tr>
   );
