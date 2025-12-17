@@ -21,11 +21,15 @@ export default function AddContestPage() {
     reset: mutationReset,
   } = useMutation({
     mutationFn: async (payload) =>
-      await axios.post(`${import.meta.env.VITE_API_URL}/contests`, payload),
+      // await axios.post(`${import.meta.env.VITE_API_URL}/contests`, payload)
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/contest-requests`,
+        payload
+      ),
     onSuccess: (data) => {
       console.log(data);
       // show toast
-      toast.success("Contest Added successfully");
+      toast.success("Contest submitted! Waiting for admin approval.");
       // navigate to my inventory page
       mutationReset();
       // Query key invalidate
@@ -238,8 +242,12 @@ export default function AddContestPage() {
           </div>
 
           {/* Submit Button */}
-          <button type="submit" className="btn btn-primary mt-4">
-            Create Contest
+          <button
+            type="submit"
+            className="btn btn-primary mt-4"
+            disabled={isPending}
+          >
+            {isPending ? "Submitting..." : "Create Contest"}
           </button>
         </form>
       </div>
