@@ -3,7 +3,7 @@ import React from 'react';
 const SubmittedTasks = () => {
     return (
         <div>
-            Submitted Tasks Page
+            No Submission yet. Wait for User Submission.
         </div>
     );
 };

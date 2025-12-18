@@ -1,4 +1,5 @@
 import React from "react";
+import logo from "../../../public/logo.webp"
 
 const Footer = () => {
   return (
@@ -6,7 +7,7 @@ const Footer = () => {
       <footer className="footer footer-horizontal footer-center p-10">
         <aside>
           <img
-            src="https://thumbs.dreamstime.com/b/contest-icon-online-learning-perfect-application-web-logo-presentation-template-design-line-style-173518731.jpg"
+            src={logo}
             alt="Logo"
             className="w-10 h-10 object-cover rounded-full"
           />

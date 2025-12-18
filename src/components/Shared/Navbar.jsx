@@ -6,6 +6,7 @@ import { AuthContext } from "../../providers/AuthContext";
 import toast from "react-hot-toast";
 import Container from "./Container";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
+import logo from "../../../public/logo.webp"
 
 const Navbar = () => {
   // const [theme, setTheme] = useState("light");
@@ -31,6 +32,8 @@ const Navbar = () => {
   //   document.querySelector("html").setAttribute("data-theme", newTheme);
   // };
 
+
+
   return (
     <Container>
       <div className="navbar bg-base-100 shadow-sm sticky top-0 left-0 w-full z-50  ">
@@ -38,7 +41,7 @@ const Navbar = () => {
           {/* Logo and Name */}
           <Link to="/" className="flex items-center">
             <img
-              src="https://thumbs.dreamstime.com/b/contest-icon-online-learning-perfect-application-web-logo-presentation-template-design-line-style-173518731.jpg"
+              src={logo}
               alt="Logo"
               className="w-10 h-10 object-cover rounded-full"
             />
@@ -120,7 +123,11 @@ const Navbar = () => {
                 className="btn btn-ghost btn-circle avatar"
               >
                 <div className="w-10 rounded-full">
-                  <img alt="User" referrerPolicy="no-referrer" src={user?.photoURL} />
+                  <img
+                    alt="User"
+                    referrerPolicy="no-referrer"
+                    src={user?.photoURL}
+                  />
                 </div>
               </div>
               <ul
@@ -131,7 +138,12 @@ const Navbar = () => {
                   <span className="font-semibold">{user?.displayName}</span>
                 </li>
                 <li>
-                  <Link className="font-bold hover:text-green-400" to="/dashboard">Dashboard</Link>
+                  <Link
+                    className="font-bold hover:text-green-400"
+                    to="/dashboard"
+                  >
+                    Dashboard
+                  </Link>
                 </li>
                 <li>
                   <button
