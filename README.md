@@ -5,7 +5,7 @@ ContestHub is a full-stack, role-based web application where users can create, d
 ---
 
 ## 🌐 Live Website
-🔗 https://your-live-site-url.com
+🔗 https://contest-hub-auth-ac5a2.web.app
 
 ---
 

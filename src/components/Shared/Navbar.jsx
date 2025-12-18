@@ -6,7 +6,7 @@ import { AuthContext } from "../../providers/AuthContext";
 import toast from "react-hot-toast";
 import Container from "./Container";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
-import logo from "../../../public/logo.webp"
+import logo from "./logo.png";
 
 const Navbar = () => {
   // const [theme, setTheme] = useState("light");
@@ -31,8 +31,6 @@ const Navbar = () => {
   //   setTheme(newTheme);
   //   document.querySelector("html").setAttribute("data-theme", newTheme);
   // };
-
-
 
   return (
     <Container>
