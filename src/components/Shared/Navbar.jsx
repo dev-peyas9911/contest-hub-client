@@ -6,7 +6,7 @@ import { AuthContext } from "../../providers/AuthContext";
 import toast from "react-hot-toast";
 import Container from "./Container";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
-import logo from "./logo.png";
+
 
 const Navbar = () => {
   // const [theme, setTheme] = useState("light");
@@ -39,7 +39,7 @@ const Navbar = () => {
           {/* Logo and Name */}
           <Link to="/" className="flex items-center">
             <img
-              src={logo}
+              src="/logo.png"
               alt="Logo"
               className="w-10 h-10 object-cover rounded-full"
             />

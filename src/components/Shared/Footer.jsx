@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "./logo.png";
+
 
 const Footer = () => {
   return (
@@ -7,7 +7,7 @@ const Footer = () => {
       <footer className="footer footer-horizontal footer-center p-10">
         <aside>
           <img
-            src={logo}
+            src="/logo.png"
             alt="Logo"
             className="w-10 h-10 object-cover rounded-full"
           />
