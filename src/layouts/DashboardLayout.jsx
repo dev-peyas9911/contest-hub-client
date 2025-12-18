@@ -33,10 +33,10 @@ export default function DashboardLayout() {
       label: "Submitted Tasks Page",
       path: "/dashboard/submitted-tasks",
     },
-    role === "creator" && {
-      label: "Edit Contest Page",
-      path: "/dashboard/edit-contest",
-    },
+    // role === "creator" && {
+    //   label: "Edit Contest Page",
+    //   path: "/dashboard/edit-contest",
+    // },
     role === "admin" && {
       label: "Manage Users",
       path: "/dashboard/manage-users",

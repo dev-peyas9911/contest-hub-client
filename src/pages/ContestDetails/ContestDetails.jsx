@@ -12,8 +12,23 @@ const ContestDetails = () => {
   const { id } = useParams();
 
   const [timeLeft, setTimeLeft] = useState({});
-  const [isRegistered, setIsRegistered] = useState(false);
+
   const [taskText, setTaskText] = useState("");
+
+  // submit
+  const { data: registerStatus = {}, isLoading: checkingRegister } = useQuery({
+    queryKey: ["registered", id, user?.email],
+    enabled: !!user && !!id,
+    queryFn: async () => {
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/is-registered/${id}`,
+        { withCredentials: true }
+      );
+      return res.data;
+    },
+  });
+  const isRegistered = registerStatus?.registered;
+  // submit
 
   const { data: contest = {}, isLoading } = useQuery({
     queryKey: ["contest", id],
@@ -68,24 +83,36 @@ const ContestDetails = () => {
     return () => clearInterval(interval);
   }, [deadline]);
 
-  if (isLoading) return <LoadingSpinner></LoadingSpinner>;
+  if (isLoading || checkingRegister) return <LoadingSpinner></LoadingSpinner>;
 
   const contestEnded = timeLeft?.expired;
 
   // ----------------------------
   // Submit Task Modal Handler
   // ----------------------------
+
   const handleSubmitTask = async () => {
-    if (!taskText.trim()) return;
+    if (!taskText.trim()) {
+      toast.error("Submission cannot be empty");
+      return;
+    }
 
-    await axios.post(`${import.meta.env.VITE_API_URL}/submit-task`, {
-      contestId: _id,
-      submission: taskText,
-    });
+    try {
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/submit-task`,
+        {
+          contestId: _id,
+          submission: taskText,
+        },
+        { withCredentials: true }
+      );
 
-    setTaskText("");
-    document.getElementById("task_modal").close();
-    toast("Task submitted successfully!");
+      toast.success("Task submitted successfully");
+      setTaskText("");
+      document.getElementById("task_modal").close();
+    } catch (err) {
+      toast.error(err?.response?.data?.message || "Submission failed");
+    }
   };
 
   // Payment process
@@ -107,8 +134,9 @@ const ContestDetails = () => {
     };
     const { data } = await axios.post(
       `${import.meta.env.VITE_API_URL}/create-checkout-session`,
-      paymentInfo
+      paymentInfo,
     );
+    
     window.location.href = data.url;
   };
 
@@ -186,18 +214,28 @@ const ContestDetails = () => {
         {/* Buttons */}
         <div className="flex gap-4">
           {/* Register / Pay Button */}
-          <button
+          {/* <button
             onClick={handlePayment}
             className={`btn btn-primary ${contestEnded ? "btn-disabled" : ""}`}
           >
             {contestEnded ? "Registration Closed" : `Register $${price}`}
+          </button> */}
+          <button
+            onClick={handlePayment}
+            disabled={!user || contestEnded || isRegistered}
+            className="btn btn-primary"
+          >
+            {contestEnded
+              ? "Registration Closed"
+              : isRegistered
+              ? "Registered ✅"
+              : `Register $${price}`}
           </button>
 
           {/* Submit Task Button */}
           <button
-            className={`btn btn-secondary ${
-              !isRegistered || contestEnded ? "btn-disabled" : ""
-            }`}
+            className="btn btn-secondary"
+            disabled={!user || !isRegistered || contestEnded}
             onClick={() => document.getElementById("task_modal").showModal()}
           >
             Submit Task
