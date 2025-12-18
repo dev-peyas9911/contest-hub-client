@@ -2,7 +2,7 @@
 module.exports = {
   daisyui: {
     themes: ["light", "dark"], // Only use these two for clean toggle
-    darkTheme: "dark",          // Default dark theme
+    darkTheme: "light",          // Default dark theme
     base: true,
     styled: true,
     utils: true,
