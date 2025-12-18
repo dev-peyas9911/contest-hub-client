@@ -3,7 +3,7 @@ import React from 'react';
 const Winnings = () => {
     return (
         <div>
-            My Winning Contests
+            No Annoucement yet. Waiting for Contest End.
         </div>
     );
 };
